@@ -147,6 +147,66 @@ All sounds are generated programmatically using Web Audio API (no external files
 - Hearts and confetti continuously regenerate
 - All animations optimized for smooth 60fps
 
+## 🚀 Deployment to Vercel
+
+### Quick Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/cant-say-no)
+
+### Manual Deployment Steps
+
+1. **Push to GitHub** (if not already done):
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit - Valentine's Day app"
+   git branch -M main
+   git remote add origin https://github.com/yourusername/cant-say-no.git
+   git push -u origin main
+   ```
+
+2. **Deploy to Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New Project"
+   - Import your GitHub repository
+   - Vercel will auto-detect Vite configuration
+   - Click "Deploy"
+
+3. **Environment Variables** (Optional):
+   - No environment variables needed for this app!
+
+4. **Custom Domain** (Optional):
+   - Go to your project settings in Vercel
+   - Navigate to "Domains"
+   - Add your custom domain
+
+### Deployment Configuration
+
+The project includes `vercel.json` for optimal configuration:
+```json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev"
+}
+```
+
+### Post-Deployment
+
+After deployment, your app will be live at: `https://your-project-name.vercel.app`
+
+**Test all features:**
+- ✅ Custom name input
+- ✅ Background music toggle
+- ✅ Countdown timer
+- ✅ Cursor heart trails
+- ✅ No button escape behavior
+- ✅ Yes button celebration with 3D animation
+- ✅ Share button functionality
+
+---
+
 ## 🎉 Credits
 
 Made with ❤️ for Valentine's Day 2026
