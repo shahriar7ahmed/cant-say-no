@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import QuestionScreen from './components/QuestionScreen'
+import SuccessScreen from './components/SuccessScreen'
 import './index.css'
 
 function App() {
@@ -14,18 +15,12 @@ function App() {
       {!showSuccess ? (
         <QuestionScreen onYesClick={handleYesClick} />
       ) : (
-        <div className="min-h-screen w-full gradient-success flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-6xl font-bold text-white mb-8 text-shadow-glow">
-              🎉 Yay! 🎉
-            </h1>
-            <p className="text-2xl text-white">I knew you'd say yes! 💕</p>
-          </div>
-        </div>
+        <SuccessScreen />
       )}
     </div>
   )
 }
 
 export default App
+
 
