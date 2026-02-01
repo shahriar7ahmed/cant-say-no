@@ -38,14 +38,14 @@ function SuccessScreen({ name }) {
 
             {/* Success Message Overlay */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="text-center">
-                    <h1 className="text-8xl md:text-9xl font-bold text-white mb-8 text-shadow-glow animate-bounce">
+                <div className="text-center px-4">
+                    <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 text-shadow-glow animate-bounce">
                         🎉 Yay! 🎉
                     </h1>
-                    <p className="text-4xl md:text-5xl text-white mb-4 animate-pulse-slow">
+                    <p className="text-3xl md:text-4xl lg:text-5xl text-white mb-4 animate-pulse-slow font-semibold">
                         {name ? `I knew ${name} would say yes! 💕` : "I knew you'd say yes! 💕"}
                     </p>
-                    <p className="text-2xl md:text-3xl text-valentine-light">
+                    <p className="text-xl md:text-2xl lg:text-3xl text-valentine-light mb-8">
                         Happy Valentine's Day! 💖
                     </p>
 
