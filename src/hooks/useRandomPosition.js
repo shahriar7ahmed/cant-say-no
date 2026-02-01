@@ -10,7 +10,7 @@ function useRandomPosition() {
 
         // Define safe margins (button won't appear too close to edges)
         // Increase margin for mobile to prevent edge cases
-        const margin = window.innerWidth < 768 ? 150 : 100
+        const margin = window.innerWidth < 768 ? 20 : 100
 
         // Calculate random position within safe bounds
         const x = margin + Math.random() * (viewportWidth - 2 * margin)

@@ -27,7 +27,7 @@ function FloatingHearts() {
             {hearts.map((heart) => (
                 <div
                     key={heart.id}
-                    className="absolute opacity-30"
+                    className="absolute opacity-30 pointer-events-none"
                     style={{
                         left: `${heart.left}%`,
                         bottom: '-60px',
