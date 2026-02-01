@@ -1,9 +1,13 @@
+import PropTypes from 'prop-types'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import HeartParticles from './HeartParticles'
 import Confetti from './Confetti'
+import RoseParticles from './RoseParticles'
+import CupidShapes from './CupidShapes'
+import ShareButton from './ShareButton'
 
-function SuccessScreen() {
+function SuccessScreen({ name }) {
     return (
         <div className="min-h-screen w-full gradient-success relative overflow-hidden">
             {/* Three.js Canvas for 3D animation */}
@@ -19,6 +23,12 @@ function SuccessScreen() {
                 {/* 3D Heart Particles */}
                 <HeartParticles />
 
+                {/* 3D Roses */}
+                <RoseParticles />
+
+                {/* Cupid Shapes */}
+                <CupidShapes />
+
                 {/* Confetti */}
                 <Confetti />
 
@@ -33,15 +43,24 @@ function SuccessScreen() {
                         🎉 Yay! 🎉
                     </h1>
                     <p className="text-4xl md:text-5xl text-white mb-4 animate-pulse-slow">
-                        I knew you'd say yes! 💕
+                        {name ? `I knew ${name} would say yes! 💕` : "I knew you'd say yes! 💕"}
                     </p>
                     <p className="text-2xl md:text-3xl text-valentine-light">
                         Happy Valentine's Day! 💖
                     </p>
+
+                    {/* Share Button */}
+                    <ShareButton name={name} />
                 </div>
             </div>
         </div>
     )
 }
 
+SuccessScreen.propTypes = {
+    name: PropTypes.string,
+}
+
 export default SuccessScreen
+
+

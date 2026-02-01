@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import FloatingHearts from './FloatingHearts'
 import YesButton from './YesButton'
 import NoButton from './NoButton'
+import CountdownTimer from './CountdownTimer'
+import CursorTrail from './CursorTrail'
 import useRandomPosition from '../hooks/useRandomPosition'
 import { getMessageByAttempt } from '../data/funnyMessages'
 
-function QuestionScreen({ onYesClick }) {
+function QuestionScreen({ onYesClick, name, setName }) {
     const [escapeCount, setEscapeCount] = useState(0)
     const { position, generateRandomPosition } = useRandomPosition()
 
@@ -18,10 +20,26 @@ function QuestionScreen({ onYesClick }) {
     return (
         <div className="min-h-screen w-full gradient-valentine flex items-center justify-center relative overflow-hidden">
             <FloatingHearts />
+            <CursorTrail />
 
             <div className="text-center z-10 px-4">
+                {/* Countdown Timer */}
+                <CountdownTimer />
+
+                {/* Name Input */}
+                <div className="mb-6">
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Enter their name (optional)"
+                        className="px-6 py-3 text-xl text-center rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/40 text-white placeholder-white/60 focus:outline-none focus:border-white/80 transition-all"
+                        maxLength={20}
+                    />
+                </div>
+
                 <h1 className="text-7xl md:text-8xl font-bold text-white mb-8 text-shadow-glow animate-pulse-slow">
-                    Will you be my Valentine? 💕
+                    {name ? `${name}, will you be my Valentine? 💕` : 'Will you be my Valentine? 💕'}
                 </h1>
 
                 {/* Funny message based on escape attempts */}
@@ -49,6 +67,8 @@ function QuestionScreen({ onYesClick }) {
 
 QuestionScreen.propTypes = {
     onYesClick: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    setName: PropTypes.func.isRequired,
 }
 
 export default QuestionScreen

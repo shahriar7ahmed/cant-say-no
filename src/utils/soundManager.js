@@ -124,9 +124,63 @@ class SoundManager {
 
         source.start(0)
     }
+
+    // Background music
+    playBackgroundMusic() {
+        if (!this.initialized || !this.audioContext) {
+            this.init()
+            if (!this.initialized) return
+        }
+
+        if (this.backgroundMusicNode) return // Already playing
+
+        // Create oscillators for a simple romantic melody loop
+        this.backgroundMusicNode = this.audioContext.createGain()
+        this.backgroundMusicNode.connect(this.audioContext.destination)
+        this.backgroundMusicNode.gain.value = 0.1
+
+        const playMelody = () => {
+            const notes = [523.25, 659.25, 783.99, 659.25] // C5, E5, G5, E5
+            const duration = 0.5
+
+            notes.forEach((frequency, index) => {
+                const osc = this.audioContext.createOscillator()
+                const gainNode = this.audioContext.createGain()
+
+                osc.connect(gainNode)
+                gainNode.connect(this.backgroundMusicNode)
+
+                osc.frequency.value = frequency
+                osc.type = 'sine'
+
+                const startTime = this.audioContext.currentTime + index * duration
+                gainNode.gain.setValueAtTime(0.1, startTime)
+                gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
+
+                osc.start(startTime)
+                osc.stop(startTime + duration)
+            })
+        }
+
+        // Loop the melody
+        playMelody()
+        this.backgroundMusicInterval = setInterval(playMelody, 2000)
+    }
+
+    stopBackgroundMusic() {
+        if (this.backgroundMusicInterval) {
+            clearInterval(this.backgroundMusicInterval)
+            this.backgroundMusicInterval = null
+        }
+        if (this.backgroundMusicNode) {
+            this.backgroundMusicNode.disconnect()
+            this.backgroundMusicNode = null
+        }
+    }
 }
 
 // Create singleton instance
 const soundManager = new SoundManager()
 
 export default soundManager
+
