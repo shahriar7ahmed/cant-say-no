@@ -1,25 +1,26 @@
 import { useState } from 'react'
+import QuestionScreen from './components/QuestionScreen'
 import './index.css'
 
 function App() {
   const [showSuccess, setShowSuccess] = useState(false)
 
+  const handleYesClick = () => {
+    setShowSuccess(true)
+  }
+
   return (
-    <div className="min-h-screen w-full gradient-valentine flex items-center justify-center">
+    <div className="min-h-screen w-full">
       {!showSuccess ? (
-        <div className="text-center">
-          <h1 className="text-6xl font-bold text-white mb-8 text-shadow-glow animate-pulse-slow">
-            💕 Valentine's Day Project 💕
-          </h1>
-          <p className="text-2xl text-white">
-            Project setup complete! Ready for Phase 2.
-          </p>
-        </div>
+        <QuestionScreen onYesClick={handleYesClick} />
       ) : (
-        <div className="text-center">
-          <h1 className="text-6xl font-bold text-white mb-8 text-shadow-glow">
-            🎉 Success! 🎉
-          </h1>
+        <div className="min-h-screen w-full gradient-success flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-6xl font-bold text-white mb-8 text-shadow-glow">
+              🎉 Yay! 🎉
+            </h1>
+            <p className="text-2xl text-white">I knew you'd say yes! 💕</p>
+          </div>
         </div>
       )}
     </div>
@@ -27,3 +28,4 @@ function App() {
 }
 
 export default App
+
