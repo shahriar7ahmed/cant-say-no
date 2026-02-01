@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types'
+import useSound from '../hooks/useSound'
 
 function NoButton({ position, onHover }) {
+    const { playEscape } = useSound()
+
+    const handleHover = () => {
+        playEscape()
+        onHover()
+    }
+
     return (
         <button
-            onMouseEnter={onHover}
+            onMouseEnter={handleHover}
             className="px-16 py-6 text-3xl font-bold text-white bg-red-500 rounded-full 
                  transform transition-all duration-300 ease-out
                  hover:scale-105 hover:bg-red-400 hover:button-glow
