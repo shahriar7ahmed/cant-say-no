@@ -12,15 +12,17 @@ function App() {
 
   return (
     <div className="min-h-screen w-full">
-      {!showSuccess ? (
+      <div className={`transition-opacity duration-1000 ${showSuccess ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'}`}>
         <QuestionScreen onYesClick={handleYesClick} />
-      ) : (
-        <SuccessScreen />
-      )}
+      </div>
+      <div className={`transition-opacity duration-1000 ${showSuccess ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        {showSuccess && <SuccessScreen />}
+      </div>
     </div>
   )
 }
 
 export default App
+
 
 
