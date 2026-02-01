@@ -4,21 +4,9 @@ import useSound from '../hooks/useSound'
 
 function NoButton({ position, onHover }) {
     const { playEscape } = useSound()
-    const [isClickable, setIsClickable] = useState(true)
     const [hasMovedOnce, setHasMovedOnce] = useState(false)
     const isMoving = position.x !== 0 || position.y !== 0
     const buttonRef = useRef(null)
-
-    // Disable clicks when button is moving and for 500ms after
-    useEffect(() => {
-        if (isMoving) {
-            setIsClickable(false)
-            const timer = setTimeout(() => {
-                setIsClickable(true)
-            }, 500) // 500ms cooldown before button becomes clickable again
-            return () => clearTimeout(timer)
-        }
-    }, [isMoving, position.x, position.y])
 
     // Continuous movement - once button has moved, keep moving it every 2 seconds
     useEffect(() => {
@@ -32,16 +20,15 @@ function NoButton({ position, onHover }) {
     }, [hasMovedOnce, onHover])
 
     const handleInteraction = (e) => {
-        // Prevent default and stop propagation to avoid any chance of click
+        // Prevent any default behavior
         e.preventDefault()
-        e.stopPropagation()
 
         if (!hasMovedOnce) {
             setHasMovedOnce(true) // Start continuous movement
         }
 
         playEscape()
-        onHover()
+        onHover() // Move the button immediately
     }
 
     // Detect mouse/touch proximity and move button away
@@ -50,7 +37,7 @@ function NoButton({ position, onHover }) {
             if (!buttonRef.current || !hasMovedOnce) return
 
             const rect = buttonRef.current.getBoundingClientRect()
-            const proximityThreshold = 100 // pixels
+            const proximityThreshold = 150 // Larger threshold for better escape
 
             const pointerX = e.clientX || (e.touches && e.touches[0]?.clientX)
             const pointerY = e.clientY || (e.touches && e.touches[0]?.clientY)
@@ -66,19 +53,21 @@ function NoButton({ position, onHover }) {
             )
 
             // If pointer is too close, move the button
-            if (distance < proximityThreshold && isClickable) {
-                handleInteraction(e)
+            if (distance < proximityThreshold) {
+                e.preventDefault()
+                playEscape()
+                onHover()
             }
         }
 
-        window.addEventListener('mousemove', handlePointerMove)
-        window.addEventListener('touchmove', handlePointerMove)
+        window.addEventListener('mousemove', handlePointerMove, { passive: false })
+        window.addEventListener('touchmove', handlePointerMove, { passive: false })
 
         return () => {
             window.removeEventListener('mousemove', handlePointerMove)
             window.removeEventListener('touchmove', handlePointerMove)
         }
-    }, [hasMovedOnce, isClickable])
+    }, [hasMovedOnce, onHover, playEscape])
 
     return (
         <button
@@ -88,15 +77,17 @@ function NoButton({ position, onHover }) {
                 left: isMoving ? `${position.x}px` : 'auto',
                 top: isMoving ? `${position.y}px` : 'auto',
                 transform: isMoving ? 'translate(-50%, -50%)' : 'none',
-                pointerEvents: isClickable && !isMoving ? 'auto' : 'none', // Disable during move and cooldown
-                transition: 'all 0.3s ease-out',
+                pointerEvents: 'auto', // Always allow pointer events so hover works
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)', // Fast smooth transition
                 zIndex: 50,
+                touchAction: 'none',
+                userSelect: 'none',
             }}
-            onMouseEnter={handleInteraction}
-            onTouchStart={handleInteraction} // Mobile touch
-            onMouseDown={handleInteraction} // Desktop mouse down
-            onPointerDown={handleInteraction} // All pointer events
-            onClick={(e) => e.preventDefault()} // Extra safety to prevent any clicks
+            onMouseEnter={handleInteraction} // Desktop: moves on hover
+            onTouchStart={handleInteraction} // Mobile: moves on touch
+            onMouseDown={handleInteraction} // Extra safety
+            onPointerDown={handleInteraction} // All pointer types
+            onClick={(e) => { e.preventDefault(); return false; }} // Prevent actual click
             className="px-12 py-4 text-3xl font-bold text-white bg-gradient-to-r from-red-500 to-pink-500 rounded-full hover:scale-110 transition-all duration-300 shadow-2xl button-glow cursor-pointer select-none"
             aria-label="No button"
         >
